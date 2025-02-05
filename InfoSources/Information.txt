@@ -1,0 +1,16 @@
+Interesting inks:
+
+CircuitsOnline.net									GeneralInfo	Decoding messages	Schematics	Esp8266		Py
+	https://www.circuitsonline.net/forum/view/80667					X
+
+GitHub.com
+https://github.com/HilcoTalen/RaspberryPI								X							X
+https://github.com/So871/intergasHrE-esphome-reader							X					X
+https://github.com/RichieB2B/intergas-exporter															X
+https://github.com/rixvet/IntergasBoilerReader															X
+https://github.com/keesma/Central-Heating-Intergas-Reader													X
+https://github.com/keesma/Intergas-Central-Heating-Monitor-Homie/tree/master							X
+https://github.com/Meewis/ESP8266_MQTT_INTERGAS						X		X					x			
+
+Tweakers.net
+	https://gathering.tweakers.net/forum/list_messages/2056344					X
