@@ -1,0 +1,150 @@
+  - id: Parameters_heater_on
+    channelTypeUID: mqtt:number
+    label: Parameters_heater_on
+    configuration:
+      stateTopic: InterGasGW/ic2_Parameters/heater_on
+  - id: Parameters_comfort_mode
+    channelTypeUID: mqtt:number
+    label: Parameters_comfort_mode
+    configuration:
+      stateTopic: InterGasGW/ic2_Parameters/comfort_mode
+  - id: Parameters_ch_set_max
+    channelTypeUID: mqtt:number
+    label: Parameters_ch_set_max
+    configuration:
+      stateTopic: InterGasGW/ic2_Parameters/ch_set_max
+  - id: Parameters_dhw_set
+    channelTypeUID: mqtt:number
+    label: Parameters_dhw_set
+    configuration:
+      stateTopic: InterGasGW/ic2_Parameters/dhw_set
+  - id: Parameters_eco_days
+    channelTypeUID: mqtt:number
+    label: Parameters_eco_days
+    configuration:
+      stateTopic: InterGasGW/ic2_Parameters/eco_days	  
+  - id: Parameters_comfort_set
+    channelTypeUID: mqtt:number
+    label: Parameters_comfort_set
+    configuration:
+      stateTopic: InterGasGW/ic2_Parameters/comfort_set
+  - id: Parameters_dhw_at_night
+    channelTypeUID: mqtt:number
+    label: Parameters_dhw_at_night
+    configuration:
+      stateTopic: InterGasGW/ic2_Parameters/dhw_at_night
+  - id: Parameters_ch_at_night
+    channelTypeUID: mqtt:number
+    label: Parameters_ch_at_night
+    configuration:
+      stateTopic: InterGasGW/ic2_Parameters/ch_at_night
+  - id: Parameters_param_1
+    channelTypeUID: mqtt:number
+    label: Parameters_param_1
+    configuration:
+      stateTopic: InterGasGW/ic2_Parameters/param_1
+  - id: Parameters_param_2
+    channelTypeUID: mqtt:number
+    label: Parameters_param_2
+    configuration:
+      stateTopic: InterGasGW/ic2_Parameters/param_2
+  - id: Parameters_param_3
+    channelTypeUID: mqtt:number
+    label: Parameters_param_3
+    configuration:
+      stateTopic: InterGasGW/ic2_Parameters/param_3
+  - id: Parameters_param_4
+    channelTypeUID: mqtt:number
+    label: Parameters_param_4
+    configuration:
+      stateTopic: InterGasGW/ic2_Parameters/param_4
+  - id: Parameters_param_5
+    channelTypeUID: mqtt:number
+    label: Parameters_param_5
+    configuration:
+      stateTopic: InterGasGW/ic2_Parameters/param_5
+  - id: Parameters_param_6
+    channelTypeUID: mqtt:number
+    label: Parameters_param_6
+    configuration:
+      stateTopic: InterGasGW/ic2_Parameters/param_6
+  - id: Parameters_param_7
+    channelTypeUID: mqtt:number
+    label: Parameters_param_7
+    configuration:
+      stateTopic: InterGasGW/ic2_Parameters/param_7
+  - id: Parameters_param_8
+    channelTypeUID: mqtt:number
+    label: Parameters_param_8
+    configuration:
+      stateTopic: InterGasGW/ic2_Parameters/param_8
+  - id: Parameters_param_9
+    channelTypeUID: mqtt:number
+    label: Parameters_param_9
+    configuration:
+      stateTopic: InterGasGW/ic2_Parameters/param_9
+  - id: Parameters_param_A
+    channelTypeUID: mqtt:number
+    label: Parameters_param_A
+    configuration:
+      stateTopic: InterGasGW/ic2_Parameters/param_A
+  - id: Parameters_param_b
+    channelTypeUID: mqtt:number
+    label: Parameters_param_b
+    configuration:
+      stateTopic: InterGasGW/ic2_Parameters/param_b
+  - id: Parameters_param_C
+    channelTypeUID: mqtt:number
+    label: Parameters_param_C
+    configuration:
+      stateTopic: InterGasGW/ic2_Parameters/param_C
+  - id: Parameters_param_d
+    channelTypeUID: mqtt:number
+    label: Parameters_param_d
+    configuration:
+      stateTopic: InterGasGW/ic2_Parameters/param_d
+  - id: Parameters_param_E
+    channelTypeUID: mqtt:number
+    label: Parameters_param_E
+    configuration:
+      stateTopic: InterGasGW/ic2_Parameters/param_E
+  - id: Parameters_param_Edot
+    channelTypeUID: mqtt:number
+    label: Parameters_param_Edot
+    configuration:
+      stateTopic: InterGasGW/ic2_Parameters/param_Edot
+  - id: Parameters_param_F
+    channelTypeUID: mqtt:number
+    label: Parameters_param_F
+    configuration:
+      stateTopic: InterGasGW/ic2_Parameters/param_F
+  - id: Parameters_param_H
+    channelTypeUID: mqtt:number
+    label: Parameters_param_H
+    configuration:
+      stateTopic: InterGasGW/ic2_Parameters/param_H
+  - id: Parameters_param_n
+    channelTypeUID: mqtt:number
+    label: Parameters_param_n
+    configuration:
+      stateTopic: InterGasGW/ic2_Parameters/param_n
+  - id: Parameters_param_o
+    channelTypeUID: mqtt:number
+    label: Parameters_param_o
+    configuration:
+      stateTopic: InterGasGW/ic2_Parameters/param_o
+  - id: Parameters_param_P
+    channelTypeUID: mqtt:number
+    label: Parameters_param_P
+    configuration:
+      stateTopic: InterGasGW/ic2_Parameters/param_P
+  - id: Parameters_param_r
+    channelTypeUID: mqtt:number
+    label: Parameters_param_r
+    configuration:
+      stateTopic: InterGasGW/ic2_Parameters/param_r
+  - id: Parameters_param_Fdot
+    channelTypeUID: mqtt:number
+    label: Parameters_param_Fdot
+    configuration:
+      stateTopic: InterGasGW/ic2_Parameters/param_Fdot

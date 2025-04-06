@@ -1,0 +1,30 @@
+  - id: TelegramMaxRetrieveTime_ic2_Status
+    channelTypeUID: mqtt:number
+    label: TelegramMaxRetrieveTime_ic2_Status
+    configuration:
+      stateTopic: InterGasGW/TelegramMaxRetrieveTime/ic2_Status
+  - id: TelegramMaxRetrieveTime_ic2_Faults
+    channelTypeUID: mqtt:number
+    label: TelegramMaxRetrieveTime_ic2_Faults
+    configuration:
+      stateTopic: InterGasGW/TelegramMaxRetrieveTime/ic2_Faults
+  - id: TelegramMaxRetrieveTime_ic2_Burner
+    channelTypeUID: mqtt:number
+    label: TelegramMaxRetrieveTime_ic2_Burner
+    configuration:
+      stateTopic: InterGasGW/TelegramMaxRetrieveTime/ic2_Burner
+  - id: TelegramMaxRetrieveTime_ic2_OperatingHours
+    channelTypeUID: mqtt:number
+    label: TelegramMaxRetrieveTime_ic2_OperatingHours
+    configuration:
+      stateTopic: InterGasGW/TelegramMaxRetrieveTime/ic2_OperatingHours
+  - id: TelegramMaxRetrieveTime_ic2_parameters
+    channelTypeUID: mqtt:number
+    label: TelegramMaxRetrieveTime_ic2_parameters
+    configuration:
+      stateTopic: InterGasGW/TelegramMaxRetrieveTime/ic2_parameters
+  - id: TelegramMaxRetrieveTime_ic2_BurnerVersion
+    channelTypeUID: mqtt:number
+    label: TelegramMaxRetrieveTime_ic2_BurnerVersion
+    configuration:
+      stateTopic: InterGasGW/TelegramMaxRetrieveTime/ic2_BurnerVersion

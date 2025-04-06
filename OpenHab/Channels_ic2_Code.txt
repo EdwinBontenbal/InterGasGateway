@@ -1,0 +1,112 @@
+  - id: Code_Code_opentherm
+    channelTypeUID: mqtt:switch
+    label: Code_Code_opentherm
+    description: opentherm
+    configuration:
+      stateTopic: InterGasGW/ic2_Code/opentherm
+      off: "0"
+      on: "1"
+  - id: Code_Code_boiler_ext
+    channelTypeUID: mqtt:switch
+    label: Code_Code_boiler_ext
+    description: boiler_ext
+    configuration:
+      stateTopic: InterGasGW/ic2_Code/boiler_ext
+      off: "0"
+      on: "1"
+  - id: Code_frost
+    channelTypeUID: mqtt:switch
+    label: Code_frost
+    description: frost
+    configuration:
+      stateTopic: InterGasGW/ic2_Code/frost
+      off: "0"
+      on: "1"
+  - id: Code_central_heating_rf
+    channelTypeUID: mqtt:switch
+    label: Code_central_heating_rf
+    description: central_heating_rf
+    configuration:
+      stateTopic: InterGasGW/ic2_Code/central_heating_rf
+      off: "0"
+      on: "1"
+  - id: Code_tapwater_int
+    channelTypeUID: mqtt:switch
+    label: Code_tapwater_int
+    description: tapwater_int
+    configuration:
+      stateTopic: InterGasGW/ic2_Code/tapwater_int
+      off: "0"
+      on: "1"
+  - id: Code_sensortest
+    channelTypeUID: mqtt:switch
+    label: Code_sensortest
+    description: sensortest
+    configuration:
+      stateTopic: InterGasGW/ic2_Code/sensortest
+      off: "0"
+      on: "1"
+  - id: Code_zone_heating
+    channelTypeUID: mqtt:switch
+    label: Code_zone_heating
+    description: zone_heating
+    configuration:
+      stateTopic: InterGasGW/ic2_Code/zone_heating
+      off: "0"
+      on: "1"
+  - id: Code_standby
+    channelTypeUID: mqtt:switch
+    label: Code_standby
+    description: standby
+    configuration:
+      stateTopic: InterGasGW/ic2_Code/standby
+      off: "0"
+      on: "1"
+  - id: Code_postrun_boiler
+    channelTypeUID: mqtt:switch
+    label: Code_postrun_boiler
+    description: postrun_boiler
+    configuration:
+      stateTopic: InterGasGW/ic2_Code/postrun_boiler
+      off: "0"
+      on: "1"
+  - id: Code_service
+    channelTypeUID: mqtt:switch
+    label: Code_service
+    description: service
+    configuration:
+      stateTopic: InterGasGW/ic2_Code/service
+      off: "0"
+      on: "1"
+  - id: Code_tapwater
+    channelTypeUID: mqtt:switch
+    label: Code_tapwater
+    description: tapwater
+    configuration:
+      stateTopic: InterGasGW/ic2_Code/tapwater
+      off: "0"
+      on: "1"
+  - id: Code_postrun_ch
+    channelTypeUID: mqtt:switch
+    label: Code_postrun_ch
+    description: postrun_ch
+    configuration:
+      stateTopic: InterGasGW/ic2_Code/postrun_ch
+      off: "0"
+      on: "1"
+  - id: Code_boiler_int
+    channelTypeUID: mqtt:switch
+    label: Code_boiler_int
+    description: boiler_int
+    configuration:
+      stateTopic: InterGasGW/ic2_Code/boiler_int
+      off: "0"
+      on: "1"
+  - id: Code_buffer
+    channelTypeUID: mqtt:switch
+    label: Code_buffer
+    description: buffer
+    configuration:
+      stateTopic: InterGasGW/ic2_Code/buffer
+      off: "0"
+      on: "1"
