@@ -1,5 +1,5 @@
 # InterGasGateway
-Hardware/Software to monitor a Intergas boiler over rs232 to Domotica Software
+Hardware/Software to monitor a Intergas boiler over rs232 interface (x5) of the intergas boiler to Domotica Software with the use of MQTT.
 
 
 # Good to know
