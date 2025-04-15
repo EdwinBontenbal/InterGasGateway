@@ -199,23 +199,24 @@ struct ParameterRecord {
   bool                  TelegramRunDuringBoot;
   long                  TelegramErrors;
   int                   TelegramMaxRetrieveTime;
+  int                   TelegramRetrieveTime;
   }; 
 
 
 struct  ParameterRecord Gl_ParameterList[Gl_NoOfTelegrams] =
    {
     
-    {  0, ""       ,  true,  true,  0,        0,     0, "Nothing"            , 1, 0, 0}, // Not used
-    {  1, "S?\r"   ,  true, false, 32,     1000,   500, "ic2_Status"         , 1, 0, 0}, // Max 150 ms, Prefered setting 160
-    {  2, "S2\r"   , false,  true, 32,999999999,   500, "StatusExtra"        , 1, 0, 0}, // To be done
-    {  3, "REV"    ,  true, false, 32,  3600000,   500, "ic2_BurnerVersion"  , 1, 0, 0}, // Max 135 ms, Prefered setting 145
-    {  4, "CRC"    ,  true, false, 32,    60000,   500, "ic2_Burner"         , 1, 0, 0}, // Max 100 ms, Prefered setting 110
-    {  5, "HN\r"   ,  true, false, 32,    60000,   500, "ic2_OperatingHours" , 1, 0, 0}, // Max 130 ms, Prefered setting 140
-    {  6, "EN\r"   ,  true, false, 32,    10000,   500, "ic2_Faults"         , 1, 0, 0}, // Max 150 ms, Prefered setting 160
-    {  7, "V?\r"   ,  true, false, 32,    60000,   500, "ic2_Parameters"     , 1, 0, 0}, // Max 135 ms, Prefered setting 145
-    {  8, "LX?"    ,  true,  true, 32,999999999,   500, "parametersExtra"    , 1, 0, 0}, // To be done
-    {  9, "B?\r"   ,  true,  true, 32,999999999,   500, "infoblok"           , 1, 0, 0}, // To be done
-    { 10, "B2\r"   ,  true,  true, 32,999999999,   500, "infoblokExtra"      , 1, 0, 0}  // To be done
+    {  0, ""       ,  true,  true,  0,        0,     0, "Nothing"            , 1, 0, 0, 0}, // Not used
+    {  1, "S?\r"   ,  true, false, 32,     1000,   500, "ic2_Status"         , 1, 0, 0, 0}, // Max 150 ms, Prefered setting 160
+    {  2, "S2\r"   , false,  true, 32,999999999,   500, "StatusExtra"        , 1, 0, 0, 0}, // To be done
+    {  3, "REV"    ,  true, false, 32,  3600000,   500, "ic2_BurnerVersion"  , 1, 0, 0, 0}, // Max 135 ms, Prefered setting 145
+    {  4, "CRC"    ,  true, false, 32,    60000,   500, "ic2_Burner"         , 1, 0, 0, 0}, // Max 100 ms, Prefered setting 110
+    {  5, "HN\r"   ,  true, false, 32,    60000,   500, "ic2_OperatingHours" , 1, 0, 0, 0}, // Max 130 ms, Prefered setting 140
+    {  6, "EN\r"   ,  true, false, 32,    10000,   500, "ic2_Faults"         , 1, 0, 0, 0}, // Max 150 ms, Prefered setting 160
+    {  7, "V?\r"   ,  true, false, 32,    60000,   500, "ic2_Parameters"     , 1, 0, 0, 0}, // Max 135 ms, Prefered setting 145
+    {  8, "LX?"    ,  true,  true, 32,999999999,   500, "parametersExtra"    , 1, 0, 0, 0}, // To be done
+    {  9, "B?\r"   ,  true,  true, 32,999999999,   500, "infoblok"           , 1, 0, 0, 0}, // To be done
+    { 10, "B2\r"   ,  true,  true, 32,999999999,   500, "infoblokExtra"      , 1, 0, 0, 0}  // To be done
     };
 
 const byte Gl_SerialRecieveTimeoutExtraDubugTime          = 200;
@@ -431,7 +432,7 @@ void setup() {
   //
   //Setup MQTT
   client.setServer(mqtt_server, mqtt_port);
-  reconnect();
+  connect();
   delay(1000);
   //
   //Get version of the burner (ic2 or ic3) because some telegrams are not available if you have a ic2 burner)
@@ -471,11 +472,10 @@ void loop() {
 }
 
 byte DetermineRequest (){
-  unsigned long loc_Time     = millis() ; // seconds to milli seconds
   byte          loc_Request  = 0;
 
   for (byte counter = 1; ((counter < Gl_NoOfTelegrams) and (loc_Request == 0)); counter++) {
-    if ( (loc_Time > (Gl_ParameterList[counter].TelegramReadSchedule + Gl_ParameterList[counter].TelegramLastTimeRun)) and (Gl_ParameterList[counter].ic2 == Gl_ic2) and (Gl_ParameterList[counter].ic3 == Gl_ic3) ){
+    if ( Duration(millis(), Gl_ParameterList[counter].TelegramLastTimeRun) > (Gl_ParameterList[counter].TelegramReadSchedule ) and (Gl_ParameterList[counter].ic2 == Gl_ic2) and (Gl_ParameterList[counter].ic3 == Gl_ic3) ){
       loc_Request = counter;
     }
   }
@@ -484,10 +484,10 @@ byte DetermineRequest (){
 
 
 void SendRequestToSerialPort (byte loc_Status){
-  unsigned long loc_Time     = millis() ; // seconds to milli seconds
+  
   if (loc_Status != Nothing){
     //
-    Gl_ParameterList[loc_Status].TelegramLastTimeRun = loc_Time;
+    Gl_ParameterList[loc_Status].TelegramLastTimeRun = millis();
     //
     InterGasSerial.write(Gl_ParameterList[loc_Status].SerialCommand);
     //
@@ -535,9 +535,10 @@ void GetDataFromSerialPort (byte loc_Status){
       Gl_RecievedArray[loc_ArrayIndex] = loc_ByteRecieved;
       loc_ArrayIndex++;
       }
-    } while ((millis() <= (loc_TimeStartRecievingTelegram + loc_TelegramMaxDuration)) and (loc_ArrayIndex <= (loc_TelegramLength-1)));
+    } while (Duration (millis(), loc_TimeStartRecievingTelegram <= loc_TelegramMaxDuration) and (loc_ArrayIndex <= (loc_TelegramLength-1)));
     //
-    DurationRecievingTelegram = (millis()-loc_TimeStartRecievingTelegram);
+    DurationRecievingTelegram                                 = Duration (millis(), loc_TimeStartRecievingTelegram);
+    Gl_ParameterList[loc_Status].TelegramRetrieveTime         = DurationRecievingTelegram;
     
     if (Gl_ParameterList[loc_Status].TelegramMaxRetrieveTime < DurationRecievingTelegram) {
       Gl_ParameterList[loc_Status].TelegramMaxRetrieveTime = DurationRecievingTelegram;  
@@ -1098,9 +1099,11 @@ void PublishDataFromSerialPort (byte loc_Status){
 
 void PublishSerialStats (byte loc_Status){
   if (loc_Status != Nothing) {
-    SendMQTT(Gl_Topic1, "TelegramErrors" ,String(Gl_ParameterList[loc_Status].TelegramTypeName), String(Gl_ParameterList[loc_Status].TelegramErrors));  
-    SendMQTT(Gl_Topic1, "TelegramMaxRetrieveTime" ,String(Gl_ParameterList[loc_Status].TelegramTypeName), String(Gl_ParameterList[loc_Status].TelegramMaxRetrieveTime));  
-    SendMQTT(Gl_Topic1, "InterGasGWUptime" , "Time", String(millis()));  
+    SendMQTT(Gl_Topic1, "TelegramErrors"          , String(Gl_ParameterList[loc_Status].TelegramTypeName), String(Gl_ParameterList[loc_Status].TelegramErrors));  
+    SendMQTT(Gl_Topic1, "TelegramMaxRetrieveTime" , String(Gl_ParameterList[loc_Status].TelegramTypeName), String(Gl_ParameterList[loc_Status].TelegramMaxRetrieveTime));  
+    SendMQTT(Gl_Topic1, "TelegramRetrieveTime"    , String(Gl_ParameterList[loc_Status].TelegramTypeName), String(Gl_ParameterList[loc_Status].TelegramRetrieveTime));  
+    
+    SendMQTT(Gl_Topic1, "InterGasGWUptime"        , "Time"                                               , String(millis()));  
   }
 }
 
@@ -1203,13 +1206,12 @@ void setup_wifi() {
   Serial.println("Connected to WiFi");
 }
 
-void reconnect() {
+void connect() {
   while (!client.connected()) {
-    Serial.print("Connecting MQTT...");
+    Serial.println("Connecting MQTT...");
     
     if (client.connect("ESP8266Client")) {
       Serial.println("Connected to MQTT");
-      client.subscribe("IntergasGW/sensor");
     } else {
       Serial.print("Fout, rc=");
       Serial.print(client.state());
@@ -1218,10 +1220,47 @@ void reconnect() {
   }
 }
 
-void SendMQTT( String loc_Topiclevel1, String loc_Topiclevel2, String loc_Topiclevel3, String MQTTValue ) {
+
+void SendMQTT( String loc_MQTTTopiclevel1, String loc_MQTTTopiclevel2, String loc_MQTTTopiclevel3, String loc_MQTTValue ) {
   String loc_MQTTTopic;
-  loc_MQTTTopic = loc_Topiclevel1 + "/" + loc_Topiclevel2 + "/" + loc_Topiclevel3;
-  client.publish(loc_MQTTTopic.c_str(), MQTTValue.c_str());
+  
+  loc_MQTTTopic = loc_MQTTTopiclevel1 + "/" + loc_MQTTTopiclevel2 + "/" + loc_MQTTTopiclevel3;
+  
+  if (!client.connected()) {
+    connect();
+  }
+  
+  client.publish(loc_MQTTTopic.c_str(), loc_MQTTValue.c_str());
+}
+
+unsigned long Duration(unsigned long loc_time1, unsigned long loc_time2 ){ 
+  //
+  // Needed beacause roll-over of millis() (max 4294967295 ms)
+  //
+  // Example
+  //
+  //  loc_time1   loc_time1   Duration      
+  // 4294917296  4294917296          0
+  // 4294917297  4294917296          1
+  // 4294917298  4294917296          2
+  //     
+  // 4294967295  4294917296      49999
+  //          0  4294917296      50000
+  //          1  4294917296      50001
+  //
+  //       9999  4294917296      59999
+  //      10000  4294917296      60000
+  //
+  unsigned long loc_duration = 0;
+ 
+  if ( (loc_time1 - loc_time2) >= 0 ){
+    loc_duration = loc_time1 - loc_time2;
+  }
+  else {
+    loc_duration = loc_time1 + 1 + (4294967295 - loc_time2);
+  }
+  return loc_duration;
+
 }
 
 
