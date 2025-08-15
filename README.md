@@ -22,6 +22,7 @@ A few requirements, set by myself, according to the hardware:
 A few requirements, set by myself, according to the software:
 - Code should easy to read and logically setup
 - Code should be expandable with ic3 burner
+- Code should be based on statemachines
 - Good serial debugging possibilities
 - Output of retrieved data should be pushed to the serial port
 - Output of retrieved data should be pushed to a mqtt listner (domotica software independent)
