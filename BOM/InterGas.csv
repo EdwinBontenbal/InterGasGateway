@@ -1,0 +1,14 @@
+"Id";"Designator";"Footprint";"Quantity";"Designation";"Supplier and ref";
+1;"J4,J5";"PinHeader_1x02_P2.54mm_Vertical";2;"Conn_01x02_Pin";;;
+2;"U2";"TO-92L";1;"L78L33_TO92";;;
+3;"Q2,Q1";"TO-92L";2;"BC337";;;
+4;"R3,R6,R2,R5,R1,R8";"R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal";6;"1K";;;
+5;"J6";"Altech_AK100_1x04_P5.00mm";1;"Screw_Terminal_01x04";;;
+6;"U4,U3";"DIP-6_W7.62mm";2;"4N25";;;
+7;"C1";"C_Disc_D3.0mm_W1.6mm_P2.50mm";1;"10nF";;;
+8;"C2";"C_Disc_D3.0mm_W1.6mm_P2.50mm";1;"100nF";;;
+9;"U1";"WEMOS_D1_mini_light";1;"WEMOS_D1_mini";;;
+10;"HOUSING";"100x80x29mm DIY";1;"";;;
+11;"CABLE";"CAT5E CABLE";1;"";;;
+12;"CONNECTOR";"MOLEX 4P FEMALE 5557 4.2 mm";1;"";;;
+12;"PIN CONNECTOR";"FEMALE 5557 4.2 mm";1;"";;;
