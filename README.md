@@ -28,14 +28,22 @@ A few requirements, set by myself, according to the software:
 - Scheduled retrievel of data should be possible
 - Reading the serial port should be 
 
+# Used tools
+- Visual Studio code + platrformIO
+- KiCad
+- MQTT Explorer
+- C++ decompiler
+
 # General requirements
 - Based on opensource
 - Robust
 - Well documented
+- Low cost
+- Components easy to find and easy to order
+- Reproducable
 
 # Good to know
-- The Intergas boiler can deliver a limited amount of current. If the a certain current level is exceded the boiler will turn off. It is possible to power the IntergasGW completly via the boiler.
-- Intergas has it's own software (IDS) for monitoring the X5 port of the boiler. You can download the original software at this link (https://www.intergas-verwarming.nl/zakelijk/download-ids-software/). The only thing you have to do is registrar yourself. The software was extremly usefull during the development of the arduino software.
+- Intergas has it's own software (IDS) for monitoring the X5 port of the boiler. You can download the original software at this link (https://www.intergas-verwarming.nl/zakelijk/download-ids-software/). The only thing you have to do is registrer yourself. The software was extremly usefull during the development of the arduino software.
 
 
 # Help needed
