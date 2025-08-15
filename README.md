@@ -15,18 +15,19 @@ A few requirements, set by myself, according to the hardware:
 - RX/TX gavanically separated
 - PCB should fitted in housing
 - All parts can be ordered at Aliexpress
-- PCb Easy to be ordered
+- PCb Easy to be ordered 
 - Easy to build
 
 # Software
 A few requirements, set by myself, according to the software:
 - Code should easy to read and logically setup
 - Code should be expandable with ic3 burner
+- Code should be based on statemachines
 - Good serial debugging possibilities
 - Output of retrieved data should be pushed to the serial port
 - Output of retrieved data should be pushed to a mqtt listner (domotica software independent)
 - Scheduled retrievel of data should be possible
-- Reading the serial port should be 
+- Reading the serial port should be fail save
 
 # Used tools
 - Visual Studio code + platrformIO
@@ -49,3 +50,6 @@ A few requirements, set by myself, according to the software:
 
 # Help needed
 I own a intergas boiler of type ic2 so I was able to develop the arduino parse code for the ic2 telegrams. I want to add and test also the ic3 telegrams therefor I need someone to test for me the arduino code. 
+
+# Link to get the board
+<a href="https://www.pcbway.com/project/shareproject/InterGasGW_Gateway_b01efd45.html"><img src="https://www.pcbway.com/project/img/images/frompcbway-1220.png" alt="PCB from PCBWay" /></a>
