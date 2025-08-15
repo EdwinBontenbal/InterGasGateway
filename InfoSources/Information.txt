@@ -11,6 +11,7 @@ https://github.com/rixvet/IntergasBoilerReader															X
 https://github.com/keesma/Central-Heating-Intergas-Reader													X
 https://github.com/keesma/Intergas-Central-Heating-Monitor-Homie/tree/master							X
 https://github.com/Meewis/ESP8266_MQTT_INTERGAS						X		X					x			
+https://github.com/jbouwh/incomfort-client/tree/master					X		X							X
 
 Tweakers.net
 	https://gathering.tweakers.net/forum/list_messages/2056344					X
