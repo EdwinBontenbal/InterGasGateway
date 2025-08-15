@@ -1,0 +1,40 @@
+  - id: OperatingHours_line_power_connected
+    channelTypeUID: mqtt:number
+    label: OperatingHours_line_power_connected
+    configuration:
+      stateTopic: InterGasGW/ic2_OperatingHours/line_power_connected
+  - id: OperatingHours_line_power_disconnect
+    channelTypeUID: mqtt:number
+    label: OperatingHours_line_power_disconnect
+    configuration:
+      stateTopic: InterGasGW/ic2_OperatingHours/line_power_disconnect
+  - id: OperatingHours_ch_function
+    channelTypeUID: mqtt:number
+    label: OperatingHours_ch_function
+    configuration:
+      stateTopic: InterGasGW/ic2_OperatingHours/ch_function
+  - id: OperatingHours_dhw_function
+    channelTypeUID: mqtt:number
+    label: OperatingHours_dhw_function
+    configuration:
+      stateTopic: InterGasGW/ic2_OperatingHours/dhw_function
+  - id: OperatingHours_burnerstarts
+    channelTypeUID: mqtt:number
+    label: OperatingHours_burnerstarts
+    configuration:
+      stateTopic: InterGasGW/ic2_OperatingHours/burnerstarts
+  - id: OperatingHours_ignition_failed
+    channelTypeUID: mqtt:number
+    label: OperatingHours_ignition_failed
+    configuration:
+      stateTopic: InterGasGW/ic2_OperatingHours/ignition_failed
+  - id: OperatingHours_flame_lost
+    channelTypeUID: mqtt:number
+    label: OperatingHours_flame_lost
+    configuration:
+      stateTopic: InterGasGW/ic2_OperatingHours/flame_lost
+  - id: OperatingHours_reset
+    channelTypeUID: mqtt:number
+    label: OperatingHours_reset
+    configuration:
+      stateTopic: InterGasGW/ic2_OperatingHours/reset

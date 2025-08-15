@@ -1,0 +1,194 @@
+  - id: Status_t1
+    channelTypeUID: mqtt:number
+    label: Status_t1
+    description: ""
+    configuration:
+      stateTopic: InterGasGW/ic2_Status/t1
+  - id: Status_t2
+    channelTypeUID: mqtt:number
+    label: Status_t2
+    configuration:
+      stateTopic: InterGasGW/ic2_Status/t2
+  - id: Status_t3
+    channelTypeUID: mqtt:number
+    label: Status_t3
+    configuration:
+      stateTopic: InterGasGW/ic2_Status/t3
+  - id: Status_t4
+    channelTypeUID: mqtt:number
+    label: Status_t4
+    configuration:
+      stateTopic: InterGasGW/ic2_Status/t4
+  - id: Status_t5
+    channelTypeUID: mqtt:number
+    label: Status_t5
+    configuration:
+      stateTopic: InterGasGW/ic2_Status/t5
+  - id: Status_t6
+    channelTypeUID: mqtt:number
+    label: Status_t6
+    configuration:
+      stateTopic: InterGasGW/ic2_Status/t6
+  - id: Status_ch_pressure
+    channelTypeUID: mqtt:number
+    label: Status_ch_pressure
+    configuration:
+      stateTopic: InterGasGW/ic2_Status/ch_pressure
+  - id: Status_temp_settemp_set
+    channelTypeUID: mqtt:number
+    label: Status_temp_set
+    configuration:
+      stateTopic: InterGasGW/ic2_Status/temp_set
+  - id: Status_fanspeed_set
+    channelTypeUID: mqtt:number
+    label: Status_fanspeed_set
+    configuration:
+      stateTopic: InterGasGW/ic2_Status/fanspeed_set
+  - id: Status_fan_speed
+    channelTypeUID: mqtt:number
+    label: Status_fan_speed
+    configuration:
+      stateTopic: InterGasGW/ic2_Status/fan_speed
+  - id: Status_fan_pwm
+    channelTypeUID: mqtt:number
+    label: Status_fan_pwm
+    configuration:
+      stateTopic: InterGasGW/ic2_Status/fan_pwm
+  - id: Status_io_curr
+    channelTypeUID: mqtt:number
+    label: Status_io_curr
+    configuration:
+      stateTopic: InterGasGW/ic2_Status/io_curr
+  - id: Status_display_code
+    channelTypeUID: mqtt:number
+    label: Status_display_code
+    configuration:
+      stateTopic: InterGasGW/ic2_Status/display_code
+  - id: Status_gp_switch
+    channelTypeUID: mqtt:switch
+    label: Status_gp_switch
+    description: gp_switch
+    configuration:
+      stateTopic: InterGasGW/ic2_Status/gp_switch
+      off: "0"
+      on: "1"
+  - id: Status_tap_switch
+    channelTypeUID: mqtt:switch
+    label: Status_tap_switch
+    description: tap_switch
+    configuration:
+      stateTopic: InterGasGW/ic2_Status/tap_switch
+      off: "0"
+      on: "1"
+  - id: Status_roomtherm
+    channelTypeUID: mqtt:switch
+    label: Status_roomtherm
+    description: roomtherm
+    configuration:
+      stateTopic: InterGasGW/ic2_Status/roomtherm
+      off: "0"
+      on: "1"
+  - id: Status_pump
+    channelTypeUID: mqtt:switch
+    label: Status_pump
+    description: pump
+    configuration:
+      stateTopic: InterGasGW/ic2_Status/pump
+      off: "0"
+      on: "1"
+  - id: Status_dwk
+    channelTypeUID: mqtt:switch
+    label: Status_dwk
+    description: dwk
+    configuration:
+      stateTopic: InterGasGW/ic2_Status/dwk
+      off: "0"
+      on: "1"
+  - id: Status_alarm_status
+    channelTypeUID: mqtt:switch
+    label: Status_alarm_status
+    description: alarm_status
+    configuration:
+      stateTopic: InterGasGW/ic2_Status/alarm_status
+      off: "0"
+      on: "1"
+  - id: Status_ch_cascade_relay
+    channelTypeUID: mqtt:switch
+    label: Status_ch_cascade_relay
+    description: ch_cascade_relay
+    configuration:
+      stateTopic: InterGasGW/ic2_Status/ch_cascade_relay
+      off: "0"
+      on: "1"
+  - id: Status_opentherm
+    channelTypeUID: mqtt:switch
+    label: Status_opentherm
+    description: opentherm
+    configuration:
+      stateTopic: InterGasGW/ic2_Status/opentherm
+      off: "0"
+      on: "1"
+  - id: Status_gasvalve
+    channelTypeUID: mqtt:switch
+    label: Status_gasvalve
+    description: gasvalve
+    configuration:
+      stateTopic: InterGasGW/ic2_Status/gasvalve
+      off: "0"
+      on: "1"
+  - id: Status_spark
+    channelTypeUID: mqtt:switch
+    label: Status_spark
+    description: spark
+    configuration:
+      stateTopic: InterGasGW/ic2_Status/spark
+      off: "0"
+      on: "1"
+  - id: Status_io_signal
+    channelTypeUID: mqtt:switch
+    label: Status_io_signal
+    description: io_signal
+    configuration:
+      stateTopic: InterGasGW/ic2_Status/io_signal
+      off: "0"
+      on: "1"
+  - id: Status_ch_ot_disabled
+    channelTypeUID: mqtt:switch
+    label: Status_ch_ot_disabled
+    description: ch_ot_disabled
+    configuration:
+      stateTopic: InterGasGW/ic2_Status/ch_ot_disabled
+      off: "0"
+      on: "1"
+  - id: Status_low_water_pressure
+    channelTypeUID: mqtt:switch
+    label: Status_low_water_pressure
+    description: low_water_pressure
+    configuration:
+      stateTopic: InterGasGW/ic2_Status/low_water_pressure
+      off: "0"
+      on: "1"
+  - id: Status_pressure_sensor
+    channelTypeUID: mqtt:switch
+    label: Status_pressure_sensor
+    description: pressure_sensor
+    configuration:
+      stateTopic: InterGasGW/ic2_Status/pressure_sensor
+      off: "0"
+      on: "1"
+  - id: Status_burner_block
+    channelTypeUID: mqtt:switch
+    label: Status_burner_block
+    description: burner_block
+    configuration:
+      stateTopic: InterGasGW/ic2_Status/burner_block
+      off: "0"
+      on: "1"
+  - id: Status_grad_flag
+    channelTypeUID: mqtt:switch
+    label: Status_grad_flag
+    description: grad_flag
+    configuration:
+      stateTopic: InterGasGW/ic2_Status/grad_flag
+      off: "0"
+      on: "1"

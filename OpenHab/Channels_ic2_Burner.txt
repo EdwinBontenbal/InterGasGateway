@@ -1,0 +1,25 @@
+  - id: Burner_interrupt_time
+    channelTypeUID: mqtt:number
+    label: Burner_interrupt_time
+    configuration:
+      stateTopic: InterGasGW/ic2_Burner/interrupt_time
+  - id: Burner_interrupt_load
+    channelTypeUID: mqtt:number
+    label: Burner_interrupt_load
+    configuration:
+      stateTopic: InterGasGW/ic2_Burner/interrupt_load
+  - id: Burner_main_load
+    channelTypeUID: mqtt:number
+    label: Burner_main_load
+    configuration:
+      stateTopic: InterGasGW/ic2_Burner/main_load
+  - id: Burner_net_frequency
+    channelTypeUID: mqtt:number
+    label: Burner_net_frequency
+    configuration:
+      stateTopic: InterGasGW/ic2_Burner/net_frequency
+  - id: Burner_voltage_reference
+    channelTypeUID: mqtt:number
+    label: Burner_voltage_reference
+    configuration:
+      stateTopic: InterGasGW/ic2_Burner/voltage_reference

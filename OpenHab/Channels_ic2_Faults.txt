@@ -1,0 +1,160 @@
+  - id: Faults_Fault00
+    channelTypeUID: mqtt:number
+    label: Faults_Fault00
+    configuration:
+      stateTopic: InterGasGW/ic2_Faults/Fault00
+  - id: Faults_Fault01
+    channelTypeUID: mqtt:number
+    label: Faults_Fault01
+    configuration:
+      stateTopic: InterGasGW/ic2_Faults/Fault01
+  - id: Faults_Fault02
+    channelTypeUID: mqtt:number
+    label: Faults_Fault02
+    configuration:
+      stateTopic: InterGasGW/ic2_Faults/Fault02
+  - id: Faults_Fault03
+    channelTypeUID: mqtt:number
+    label: Faults_Fault03
+    configuration:
+      stateTopic: InterGasGW/ic2_Faults/Fault03
+  - id: Faults_Fault04
+    channelTypeUID: mqtt:number
+    label: Faults_Fault04
+    configuration:
+      stateTopic: InterGasGW/ic2_Faults/Fault04
+  - id: Faults_Fault05
+    channelTypeUID: mqtt:number
+    label: Faults_Fault05
+    configuration:
+      stateTopic: InterGasGW/ic2_Faults/Fault05
+  - id: Faults_Fault06
+    channelTypeUID: mqtt:number
+    label: Faults_Fault06
+    configuration:
+      stateTopic: InterGasGW/ic2_Faults/Fault06
+  - id: Faults_Fault07
+    channelTypeUID: mqtt:number
+    label: Faults_Fault07
+    configuration:
+      stateTopic: InterGasGW/ic2_Faults/Fault07
+  - id: Faults_Fault08
+    channelTypeUID: mqtt:number
+    label: Faults_Fault08
+    configuration:
+      stateTopic: InterGasGW/ic2_Faults/Fault08
+  - id: Faults_Fault09
+    channelTypeUID: mqtt:number
+    label: Faults_Fault09
+    configuration:
+      stateTopic: InterGasGW/ic2_Faults/Fault09
+  - id: Faults_Fault10
+    channelTypeUID: mqtt:number
+    label: Faults_Fault10
+    configuration:
+      stateTopic: InterGasGW/ic2_Faults/Fault10
+  - id: Faults_Fault11
+    channelTypeUID: mqtt:number
+    label: Faults_Fault11
+    configuration:
+      stateTopic: InterGasGW/ic2_Faults/Fault11
+  - id: Faults_Fault12
+    channelTypeUID: mqtt:number
+    label: Faults_Fault12
+    configuration:
+      stateTopic: InterGasGW/ic2_Faults/Fault12
+  - id: Faults_Fault13
+    channelTypeUID: mqtt:number
+    label: Faults_Fault13
+    configuration:
+      stateTopic: InterGasGW/ic2_Faults/Fault13
+  - id: Faults_Fault14
+    channelTypeUID: mqtt:number
+    label: Faults_Fault14
+    configuration:
+      stateTopic: InterGasGW/ic2_Faults/Fault14
+  - id: Faults_Fault15
+    channelTypeUID: mqtt:number
+    label: Faults_Fault15
+    configuration:
+      stateTopic: InterGasGW/ic2_Faults/Fault15
+  - id: Faults_Fault16
+    channelTypeUID: mqtt:number
+    label: Faults_Fault16
+    configuration:
+      stateTopic: InterGasGW/ic2_Faults/Fault16
+  - id: Faults_Fault17
+    channelTypeUID: mqtt:number
+    label: Faults_Fault17
+    configuration:
+      stateTopic: InterGasGW/ic2_Faults/Fault17
+  - id: Faults_Fault18
+    channelTypeUID: mqtt:number
+    label: Faults_Fault18
+    configuration:
+      stateTopic: InterGasGW/ic2_Faults/Fault18
+  - id: Faults_Fault19
+    channelTypeUID: mqtt:number
+    label: Faults_Fault19
+    configuration:
+      stateTopic: InterGasGW/ic2_Faults/Fault19
+  - id: Faults_Fault20
+    channelTypeUID: mqtt:number
+    label: Faults_Fault20
+    configuration:
+      stateTopic: InterGasGW/ic2_Faults/Fault20
+  - id: Faults_Fault21
+    channelTypeUID: mqtt:number
+    label: Faults_Fault21
+    configuration:
+      stateTopic: InterGasGW/ic2_Faults/Fault21
+  - id: Faults_Fault22
+    channelTypeUID: mqtt:number
+    label: Faults_Fault22
+    configuration:
+      stateTopic: InterGasGW/ic2_Faults/Fault22
+  - id: Faults_Fault23
+    channelTypeUID: mqtt:number
+    label: Faults_Fault23
+    configuration:
+      stateTopic: InterGasGW/ic2_Faults/Fault23
+  - id: Faults_Fault24
+    channelTypeUID: mqtt:number
+    label: Faults_Fault24
+    configuration:
+      stateTopic: InterGasGW/ic2_Faults/Fault24
+  - id: Faults_Fault25
+    channelTypeUID: mqtt:number
+    label: Faults_Fault25
+    configuration:
+      stateTopic: InterGasGW/ic2_Faults/Fault25
+  - id: Faults_Fault26
+    channelTypeUID: mqtt:number
+    label: Faults_Fault26
+    configuration:
+      stateTopic: InterGasGW/ic2_Faults/Fault26
+  - id: Faults_Fault27
+    channelTypeUID: mqtt:number
+    label: Faults_Fault27
+    configuration:
+      stateTopic: InterGasGW/ic2_Faults/Fault27
+  - id: Faults_Fault28
+    channelTypeUID: mqtt:number
+    label: Faults_Fault28
+    configuration:
+      stateTopic: InterGasGW/ic2_Faults/Fault28
+  - id: Faults_Fault29
+    channelTypeUID: mqtt:number
+    label: Faults_Fault29
+    configuration:
+      stateTopic: InterGasGW/ic2_Faults/Fault29
+  - id: Faults_Fault30
+    channelTypeUID: mqtt:number
+    label: Faults_Fault30
+    configuration:
+      stateTopic: InterGasGW/ic2_Faults/Fault30
+  - id: Faults_Fault31
+    channelTypeUID: mqtt:number
+    label: Faults_Fault31
+    configuration:
+      stateTopic: InterGasGW_Faults/Fault31

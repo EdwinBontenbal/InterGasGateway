@@ -1,0 +1,30 @@
+  - id: TelegramErrors_ic2_Status
+    channelTypeUID: mqtt:number
+    label: TelegramErrors_ic2_Status
+    configuration:
+      stateTopic: InterGasGW/TelegramErrors/ic2_Status
+  - id: TelegramErrors_ic2_Faults
+    channelTypeUID: mqtt:number
+    label: TelegramErrors_ic2_Faults
+    configuration:
+      stateTopic: InterGasGW/TelegramErrors/ic2_Faults
+  - id: TelegramErrors_ic2_Burner
+    channelTypeUID: mqtt:number
+    label: TelegramErrors_ic2_Burner
+    configuration:
+      stateTopic: InterGasGW/TelegramErrors/ic2_Burner
+  - id: TelegramErrors_ic2_OperatingHours
+    channelTypeUID: mqtt:number
+    label: TelegramErrors_ic2_OperatingHours
+    configuration:
+      stateTopic: InterGasGW/TelegramErrors/ic2_OperatingHours
+  - id: TelegramErrors_ic2_parameters
+    channelTypeUID: mqtt:number
+    label: TelegramErrors_ic2_parameters
+    configuration:
+      stateTopic: InterGasGW/TelegramErrors/ic2_parameters
+  - id: TelegramErrors_ic2_BurnerVersion
+    channelTypeUID: mqtt:number
+    label: TelegramErrors_ic2_BurnerVersion
+    configuration:
+      stateTopic: InterGasGW/TelegramErrors/ic2_BurnerVersion
