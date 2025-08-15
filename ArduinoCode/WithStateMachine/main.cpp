@@ -6,9 +6,10 @@
 #include <EnvironmentSettings.h>
 //
 //Define Software Serial ports
-#define Intergas_TXport                D6
-#define Intergas_RXport                D7
+#define Intergas_TXport                D6    // output
+#define Intergas_RXport                D7    // input
 //
+#define          ledPin               2
 //
 // Init Wifi Client and MQTT
 WiFiClient   espClient;
@@ -17,7 +18,6 @@ PubSubClient client(espClient);
 // Init staemachine
 StateMachine IntergasStateMachine = StateMachine();
 //
-
 struct States {
   const char*           State;
 };
@@ -59,154 +59,156 @@ struct States IGSMStates[25] = {
 
 struct TelegramObjects {
   const char*           Item;
+  String                Formatted;
   const char*           Units;
   const char*           ExtraInfo;
 };
 
 struct TelegramObjects GL_ic2_Status[31] = {
-  { "t1"                      , "(  °C )" },
-  { "t2"                      , "(  °C )" },
-  { "t3"                      , "(  °C )" },
-  { "t4"                      , "(  °C )" },
-  { "t5"                      , "(  °C )" },
-  { "t6"                      , "(  °C )" },
-  { "ch_pressure"             , "( Bar )" },
-  { "temp_set"                , "(  °C )" },
-  { "fanspeed_set"            , "( RPM )" },
-  { "fan_speed"               , "( RPM )" },
-  { "fan_pwm"                 , "( --- )" },
-  { "io_curr"                 , "( --- )" },
-  { "display_code"            , "( --- )" },
-  { "gp_switch"               , "( --- )" },
-  { "tap_switch"              , "( --- )" },
-  { "roomtherm"               , "( --- )" },
-  { "pump"                    , "( --- )" },
-  { "dwk"                     , "( --- )" },
-  { "alarm_status"            , "( --- )" },
-  { "ch_cascade_relay"        , "( --- )" },
-  { "opentherm"               , "( --- )" },
-  { "gasvalve"                , "( --- )" },
-  { "spark"                   , "( --- )" },
-  { "io_signal"               , "( --- )" },
-  { "ch_ot_disabled"          , "( --- )" },
-  { "low_water_pressure"      , "( --- )" },
-  { "pressure_sensor"         , "( --- )" },
-  { "burner_block"            , "( --- )" },
-  { "grad_flag"               , "( --- )" }
+  { "t1"                 , "" , "(  °C )", nullptr },
+  { "t2"                 , "" , "(  °C )", nullptr },
+  { "t3"                 , "" , "(  °C )", nullptr },
+  { "t4"                 , "" , "(  °C )", nullptr },
+  { "t5"                 , "" , "(  °C )", nullptr },
+  { "t6"                 , "" , "(  °C )", nullptr },
+  { "ch_pressure"        , "" , "( Bar )", nullptr },
+  { "temp_set"           , "" , "(  °C )", nullptr },
+  { "fanspeed_set"       , "" , "( RPM )", nullptr },
+  { "fan_speed"          , "" , "( RPM )", nullptr },
+  { "fan_pwm"            , "" , "( --- )", nullptr },
+  { "io_curr"            , "" , "( --- )", nullptr },
+  { "display_code"       , "" , "( --- )", nullptr },
+  { "gp_switch"          , "" , "( --- )", nullptr },
+  { "tap_switch"         , "" , "( --- )", nullptr },
+  { "roomtherm"          , "" , "( --- )", nullptr },
+  { "pump"               , "" , "( --- )", nullptr },
+  { "dwk"                , "" , "( --- )", nullptr },
+  { "alarm_status"       , "" , "( --- )", nullptr },
+  { "ch_cascade_relay"   , "" , "( --- )", nullptr },
+  { "opentherm"          , "" , "( --- )", nullptr },
+  { "gasvalve"           , "" , "( --- )", nullptr },
+  { "spark"              , "" , "( --- )", nullptr },
+  { "io_signal"          , "" , "( --- )", nullptr },
+  { "ch_ot_disabled"     , "" , "( --- )", nullptr },
+  { "low_water_pressure" , "" , "( --- )", nullptr },
+  { "pressure_sensor"    , "" , "( --- )", nullptr },
+  { "burner_block"       , "" , "( --- )", nullptr },
+  { "grad_flag"          , "" , "( --- )", nullptr }
 };
 
 struct TelegramObjects GL_ic2_Code[15] = {
-  { "opentherm"               , "( --- )" },
-  { "boiler_ext"              , "( --- )" },
-  { "frost"                   , "( --- )" },
-  { "central_heating_rf"      , "( --- )" },
-  { "tapwater_int"            , "( --- )" },
-  { "sensortest"              , "( --- )" },
-  { "zone_heating"            , "( --- )" },
-  { "standby"                 , "( --- )" },
-  { "postrun_boiler"          , "( --- )" },
-  { "service"                 , "( --- )" },
-  { "tapwater"                , "( --- )" },
-  { "postrun_ch"              , "( --- )" },
-  { "boiler_int"              , "( --- )" },
-  { "buffer"                  , "( --- )" },
+  { "opentherm"               , "" , "( --- )" , nullptr },
+  { "boiler_ext"              , "" , "( --- )" , nullptr },
+  { "frost"                   , "" , "( --- )" , nullptr },
+  { "central_heating_rf"      , "" , "( --- )" , nullptr },
+  { "tapwater_int"            , "" , "( --- )" , nullptr },
+  { "sensortest"              , "" , "( --- )" , nullptr },
+  { "zone_heating"            , "" , "( --- )" , nullptr },
+  { "standby"                 , "" , "( --- )" , nullptr },
+  { "postrun_boiler"          , "" , "( --- )" , nullptr },
+  { "service"                 , "" , "( --- )" , nullptr },
+  { "tapwater"                , "" , "( --- )" , nullptr },
+  { "postrun_ch"              , "" , "( --- )" , nullptr },
+  { "boiler_int"              , "" , "( --- )" , nullptr },
+  { "buffer"                  , "" , "( --- )" , nullptr },
 };
 
 struct TelegramObjects Gl_ic2_BurnerVersion[4] = {
-  { "h_version"               , "( --- )" },
-  { "s_version"               , "( --- )" },
-  { "checksum1"               , "( --- )" },
-  { "checksum2"               , "( --- )" },
+  { "h_version"               , "" , "( --- )" , nullptr },
+  { "s_version"               , "" , "( --- )" , nullptr },
+  { "checksum1"               , "" , "( --- )" , nullptr },
+  { "checksum2"               , "" , "( --- )" , nullptr },
 };
 
 struct TelegramObjects Gl_ic2_Burner[7] = {
-  { "interrupt_time"          , "( --- )" },
-  { "interrupt_load"          , "(   % )" },
-  { "main_load"               , "(   % )" },
-  { "net_frequency"           , "(  Hz )" },
-  { "voltage_reference"       , "(   V )" },
-  { "checksum1"               , "( --- )" },
-  { "checksum2"               , "( --- )" },
+  { "interrupt_time"          , "" , "( --- )" , nullptr },
+  { "interrupt_load"          , "" , "(   % )" , nullptr },
+  { "main_load"               , "" , "(   % )" , nullptr },
+  { "net_frequency"           , "" , "(  Hz )" , nullptr },
+  { "voltage_reference"       , "" , "(   V )" , nullptr },
+  { "checksum1"               , "" , "( --- )" , nullptr },
+  { "checksum2"               , "" , "( --- )" , nullptr },
 };
 
 struct TelegramObjects Gl_ic2_Faults[32] = {
-  { "Fault00"                 , "( --- )" },
-  { "Fault01"                 , "( --- )" },
-  { "Fault02"                 , "( --- )" },
-  { "Fault03"                 , "( --- )" },
-  { "Fault04"                 , "( --- )" },
-  { "Fault05"                 , "( --- )" },
-  { "Fault06"                 , "( --- )" },
-  { "Fault07"                 , "( --- )" },
-  { "Fault08"                 , "( --- )" },
-  { "Fault09"                 , "( --- )" },
-  { "Fault10"                 , "( --- )" },
-  { "Fault11"                 , "( --- )" },
-  { "Fault12"                 , "( --- )" },
-  { "Fault13"                 , "( --- )" },
-  { "Fault14"                 , "( --- )" },
-  { "Fault15"                 , "( --- )" },
-  { "Fault16"                 , "( --- )" },
-  { "Fault17"                 , "( --- )" },
-  { "Fault18"                 , "( --- )" },
-  { "Fault19"                 , "( --- )" },
-  { "Fault20"                 , "( --- )" },
-  { "Fault21"                 , "( --- )" },
-  { "Fault22"                 , "( --- )" },
-  { "Fault23"                 , "( --- )" },
-  { "Fault24"                 , "( --- )" },
-  { "Fault25"                 , "( --- )" },
-  { "Fault26"                 , "( --- )" },
-  { "Fault27"                 , "( --- )" },
-  { "Fault28"                 , "( --- )" },
-  { "Fault29"                 , "( --- )" },
-  { "Fault30"                 , "( --- )" },
-  { "Fault31"                 , "( --- )" },
+  { "Fault00"                 , "" , "( --- )" , nullptr },
+  { "Fault01"                 , "" , "( --- )" , nullptr },
+  { "Fault02"                 , "" , "( --- )" , nullptr },
+  { "Fault03"                 , "" , "( --- )" , nullptr },
+  { "Fault04"                 , "" , "( --- )" , nullptr },
+  { "Fault05"                 , "" , "( --- )" , nullptr },
+  { "Fault06"                 , "" , "( --- )" , nullptr },
+  { "Fault07"                 , "" , "( --- )" , nullptr },
+  { "Fault08"                 , "" , "( --- )" , nullptr },
+  { "Fault09"                 , "" , "( --- )" , nullptr },
+  { "Fault10"                 , "" , "( --- )" , nullptr },
+  { "Fault11"                 , "" , "( --- )" , nullptr },
+  { "Fault12"                 , "" , "( --- )" , nullptr },
+  { "Fault13"                 , "" , "( --- )" , nullptr },
+  { "Fault14"                 , "" , "( --- )" , nullptr },
+  { "Fault15"                 , "" , "( --- )" , nullptr },
+  { "Fault16"                 , "" , "( --- )" , nullptr },
+  { "Fault17"                 , "" , "( --- )" , nullptr },
+  { "Fault18"                 , "" , "( --- )" , nullptr },
+  { "Fault19"                 , "" , "( --- )" , nullptr },
+  { "Fault20"                 , "" , "( --- )" , nullptr },
+  { "Fault21"                 , "" , "( --- )" , nullptr },
+  { "Fault22"                 , "" , "( --- )" , nullptr },
+  { "Fault23"                 , "" , "( --- )" , nullptr },
+  { "Fault24"                 , "" , "( --- )" , nullptr },
+  { "Fault25"                 , "" , "( --- )" , nullptr },
+  { "Fault26"                 , "" , "( --- )" , nullptr },
+  { "Fault27"                 , "" , "( --- )" , nullptr },
+  { "Fault28"                 , "" , "( --- )" , nullptr },
+  { "Fault29"                 , "" , "( --- )" , nullptr },
+  { "Fault30"                 , "" , "( --- )" , nullptr },
+  { "Fault31"                 , "" , "( --- )" , nullptr },
 };
 
 struct TelegramObjects Gl_ic2_Parameters[30] = {
-  { "heater_on"               , "( --- )" },
-  { "comfort_mode"            , "( --- )" },
-  { "ch_set_max"              , "( --- )" },
-  { "dhw_set"                 , "( --- )" },
-  { "eco_days"                , "( --- )" },
-  { "comfort_set"             , "( --- )" },
-  { "dhw_at_night"            , "( --- )" },
-  { "ch_at_night"             , "( --- )" },
-  { "param_1"                 , "( --- )" },
-  { "param_2"                 , "( --- )" },
-  { "param_3"                 , "( --- )" },
-  { "param_4"                 , "( --- )" },
-  { "param_5"                 , "( --- )" },
-  { "param_6"                 , "( --- )" },
-  { "param_7"                 , "( --- )" },
-  { "param_8"                 , "( --- )" },
-  { "param_9"                 , "( --- )" },
-  { "param_A"                 , "( --- )" },
-  { "param_b"                 , "( --- )" },
-  { "param_C"                 , "( --- )" },
-  { "param_d"                 , "( --- )" },
-  { "param_E"                 , "( --- )" },
-  { "param_E."                , "( --- )" },
-  { "param_F"                 , "( --- )" },
-  { "param_H"                 , "( --- )" },
-  { "param_n"                 , "( --- )" },
-  { "param_o"                 , "( --- )" },
-  { "param_P"                 , "( --- )" },
-  { "param_r"                 , "( --- )" },
-  { "param_F."                , "( --- )" },
+  { "heater_on"               , "" , "( --- )" , nullptr },
+  { "comfort_mode"            , "" , "( --- )" , nullptr },
+  { "ch_set_max"              , "" , "( --- )" , nullptr },
+  { "dhw_set"                 , "" , "( --- )" , nullptr },
+  { "eco_days"                , "" , "( --- )" , nullptr },
+  { "comfort_set"             , "" , "( --- )" , nullptr },
+  { "dhw_at_night"            , "" , "( --- )" , nullptr },
+  { "ch_at_night"             , "" , "( --- )" , nullptr },
+  { "param_1"                 , "" , "( --- )" , nullptr },
+  { "param_2"                 , "" , "( --- )" , nullptr },
+  { "param_3"                 , "" , "( --- )" , nullptr },
+  { "param_4"                 , "" , "( --- )" , nullptr },
+  { "param_5"                 , "" , "( --- )" , nullptr },
+  { "param_6"                 , "" , "( --- )" , nullptr },
+  { "param_7"                 , "" , "( --- )" , nullptr },
+  { "param_8"                 , "" , "( --- )" , nullptr },
+  { "param_9"                 , "" , "( --- )" , nullptr },
+  { "param_A"                 , "" , "( --- )" , nullptr },
+  { "param_b"                 , "" , "( --- )" , nullptr },
+  { "param_C"                 , "" , "( --- )" , nullptr },
+  { "param_d"                 , "" , "( --- )" , nullptr },
+  { "param_E"                 , "" , "( --- )" , nullptr },
+  { "param_E."                , "" , "( --- )" , nullptr },
+  { "param_F"                 , "" , "( --- )" , nullptr },
+  { "param_H"                 , "" , "( --- )" , nullptr },
+  { "param_n"                 , "" , "( --- )" , nullptr },
+  { "param_o"                 , "" , "( --- )" , nullptr },
+  { "param_P"                 , "" , "( --- )" , nullptr },
+  { "param_r"                 , "" , "( --- )" , nullptr },
+  { "param_F."                , "" , "( --- )" , nullptr },
 };
 
 struct TelegramObjects Gl_ic2_OperatingHours[8] = {
-  { "line_power_connected"    , "(   h )" },
-  { "line_power_disconnect"   , "(   h )" },
-  { "ch_function"             , "( --- )" },
-  { "dhw_function"            , "( --- )" },
-  { "burnerstarts"            , "( --- )" },
-  { "ignition_failed"         , "( --- )" },
-  { "flame_lost"              , "( --- )" },
-  { "reset"                   , "( --- )" },
+  { "line_power_connected"    , "" , "(   h )" , nullptr },
+  { "line_power_disconnect"   , "" , "(   # )" , nullptr },
+  { "ch_function"             , "" , "(   h )" , nullptr },
+  { "dhw_function"            , "" , "(   h )" , nullptr },
+  { "burnerstarts"            , "" , "(   # )" , nullptr },
+  { "ignition_failed"         , "" , "(   # )" , nullptr },
+  { "flame_lost"              , "" , "(   # )" , nullptr },
+  { "reset"                   , "" , "(   # )" , nullptr },
 };
+
 
 
 struct ParameterRecord {
@@ -214,6 +216,7 @@ struct ParameterRecord {
   const char*           SerialCommand;
   const bool            ic2;
   const bool            ic3;
+  const bool            DebugSerialRxTx;
   const bool            WriteResultsToSerial;
   const bool            WriteResultsToMQTT;
   const byte            TelegramLength;
@@ -227,21 +230,21 @@ struct ParameterRecord {
   int                   TelegramRetrieveTime;
 }; 
 
-const byte Gl_NoOfTelegrams = 11;
+const byte Gl_NoOfTelegrams = 11;   // N + 1 = 10 + 1 = 11
 
 struct  ParameterRecord Gl_ParameterList[Gl_NoOfTelegrams] =
 {
-  {  0, ""       ,  true,  true,  true,  true,  0,        0,     0, "Nothing"            , 0, 0, 0, 0, 0}, // Not used
-  {  1, "S?\r"   ,  true, false, false,  true, 32,     1000,   155, "ic2_Status"         , 0, 0, 0, 0, 0}, // Max 150 ms, Prefered setting 160
-  {  2, "S2\r"   , false, false, false, false, 32,999999999,   155, "StatusExtra"        , 0, 0, 0, 0, 0}, // To be done
-  {  3, "REV"    ,  true, false, false,  true, 32,  3600000,   155, "ic2_BurnerVersion"  , 0, 0, 0, 0, 0}, // Max 135 ms, Prefered setting 145
-  {  4, "CRC"    ,  true, false, false,  true, 32,    60000,   155, "ic2_Burner"         , 0, 0, 0, 0, 0}, // Max 100 ms, Prefered setting 110
-  {  5, "HN\r"   ,  true, false, false,  true, 32,    60000,   155, "ic2_OperatingHours" , 0, 0, 0, 0, 0}, // Max 130 ms, Prefered setting 140
-  {  6, "EN\r"   ,  true, false, false,  true, 32,    10000,   155, "ic2_Faults"         , 0, 0, 0, 0, 0}, // Max 150 ms, Prefered setting 160
-  {  7, "V?\r"   ,  true, false, false,  true, 32,    60000,   155, "ic2_Parameters"     , 0, 0, 0, 0, 0}, // Max 135 ms, Prefered setting 145
-  {  8, "LX?"    , false, false, false, false, 32,999999999,   155, "parametersExtra"    , 0, 0, 0, 0, 0}, // To be done
-  {  9, "B?\r"   , false, false, false, false, 32,999999999,   155, "infoblok"           , 0, 0, 0, 0, 0}, // To be done
-  { 10, "B2\r"   , false, false, false, false, 32,999999999,   155, "infoblokExtra"      , 0, 0, 0, 0, 0}  // To be done
+  {  0, ""       ,  true,  true, false, true,   true,  0,         0,     0, "Nothing"            , 0, 0, 0, 0, 0}, // Not used
+  {  1, "S?\r"   ,  true, false, false, false,  true, 32,      1000,   155, "ic2_Status"         , 0, 0, 0, 0, 0}, // Max 150 ms, Prefered setting 160
+  {  2, "S2\r"   , false, false, false, false, false, 32, 999999999,   155, "StatusExtra"        , 0, 0, 0, 0, 0}, // To be done
+  {  3, "REV"    ,  true, false, false, false,  true, 32,   3600000,   155, "ic2_BurnerVersion"  , 0, 0, 0, 0, 0}, // Max 135 ms, Prefered setting 145
+  {  4, "CRC"    ,  true, false, false, false,  true, 32,     60000,   155, "ic2_Burner"         , 0, 0, 0, 0, 0}, // Max 100 ms, Prefered setting 110
+  {  5, "HN\r"   ,  true, false, false, false,  true, 32,     60000,   155, "ic2_OperatingHours" , 0, 0, 0, 0, 0}, // Max 130 ms, Prefered setting 140
+  {  6, "EN\r"   ,  true, false, false, false,  true, 32,     10000,   155, "ic2_Faults"         , 0, 0, 0, 0, 0}, // Max 150 ms, Prefered setting 160
+  {  7, "V?\r"   ,  true, false, false, false,  true, 32,     60000,   155, "ic2_Parameters"     , 0, 0, 0, 0, 0}, // Max 135 ms, Prefered setting 145
+  {  8, "LX?"    , false, false, false, false, false, 32, 999999999,   155, "parametersExtra"    , 0, 0, 0, 0, 0}, // To be done
+  {  9, "B?\r"   , false, false, false, false, false, 32, 999999999,   155, "infoblok"           , 0, 0, 0, 0, 0}, // To be done
+  { 10, "B2\r"   , false, false, false, false, false, 32, 999999999,   155, "infoblokExtra"      , 0, 0, 0, 0, 0}  // To be done
 };
 
 const byte Gl_SerialRecieveTimeoutExtraDubugTime          = 200;
@@ -413,14 +416,10 @@ struct ic2_FaultsResult             Gl_ic2_FaultsResultOld;
 struct ic2_ParametersResult         Gl_ic2_ParametersResultNew;
 struct ic2_ParametersResult         Gl_ic2_ParametersResultOld;
 
-bool          Gl_ValidDiagram                         = false;
+
 
 //Debug Parameters
-bool          Gl_DebugSerialRxTx                      = 0;
-bool          Gl_DebugSerialStatus                    = 0;
-bool          Gl_DebugState                           = 1;
-
-bool          Gl_DebugWriteTelegramResult             = 0;
+bool          Gl_DebugState                           = true;
 
 byte          Gl_Request                              = 0;
 
@@ -512,12 +511,12 @@ double getDouble(byte msb, byte lsb) {
 
 int getInt(byte msb, byte lsb) {
     int loc_value;
-    loc_value = int(lsb * 256 + msb);
+    loc_value = int(msb * 256 + lsb);
   return loc_value;
 }
 
 
-int Getsigned(byte lsb){
+int getSigned(byte lsb){
   int loc_Value;
   if (lsb > 127) {
       loc_Value = -int((lsb ^ 255) + 1);
@@ -563,7 +562,7 @@ byte CheckFault (byte loc_FaultOccurences){
 
 
 void WriteState() {
-  if ( Gl_DebugState == 1 ) {
+  if ( Gl_DebugState == true ) {
     Serial.printf     (  "State: %33s \n", IGSMStates[IntergasStateMachine.currentState].State );
   }
 }
@@ -657,12 +656,18 @@ void SendRequestToSerialPort () {
     WriteState();
   }
   //
+  // OnboardLed On
+  digitalWrite(ledPin,HIGH);
+  //
   Gl_ParameterList[Gl_Request].TelegramLastTimeRun = millis();
   InterGasSerial.write(Gl_ParameterList[Gl_Request].SerialCommand);
-  //
-  if (Gl_DebugSerialRxTx == 1){
+  // 
+  if (Gl_ParameterList[Gl_Request].DebugSerialRxTx == true){
     Serial.printf ("TX : Data: %-3s \n", Gl_ParameterList[Gl_Request].SerialCommand );
   }
+  //
+  // OnboardLed Off
+  digitalWrite(ledPin,HIGH);
 }
 
 void GetDataFromSerialPort () {
@@ -681,7 +686,7 @@ void GetDataFromSerialPort () {
     byte          loc_BytesInSerialBuffer;
     byte          loc_DebugArray[Gl_ParameterList[Gl_Request].TelegramLength][3];
     //    
-    if ( Gl_DebugSerialRxTx == false ) {
+    if ( Gl_ParameterList[Gl_Request].DebugSerialRxTx == false ) {
         loc_TelegramMaxDuration = Gl_ParameterList[Gl_Request].TelegramMaxDuration;  
     }
     else {
@@ -694,7 +699,7 @@ void GetDataFromSerialPort () {
         loc_BytesInSerialBuffer = InterGasSerial.available();
         if ( loc_BytesInSerialBuffer > 0 ) {
         loc_ByteRecieved = InterGasSerial.read();
-            if ( Gl_DebugSerialRxTx == 1 ){
+            if ( Gl_ParameterList[Gl_Request].DebugSerialRxTx == true ){
             loc_DebugArray[loc_ArrayIndex][0] = loc_BytesInSerialBuffer;
             loc_DebugArray[loc_ArrayIndex][1] = loc_ArrayIndex;
             loc_DebugArray[loc_ArrayIndex][2] = loc_ByteRecieved;
@@ -722,14 +727,14 @@ void GetDataFromSerialPort () {
     }
     //
     //
-    if (Gl_DebugSerialRxTx == 1){
+    if (Gl_ParameterList[Gl_Request].DebugSerialRxTx == true){
       for (byte counter = 0; counter < loc_ArrayIndex; counter++ ){
         Serial.printf ("RX : Data: %-3s Index: %-3s BytesInBuffer: %-3s \n", String(loc_DebugArray[counter][2]).c_str() , String(loc_DebugArray[counter][1]).c_str(), String(loc_DebugArray[counter][0]).c_str() );
       }
     }
     //
     //    
-    if ( Gl_DebugSerialStatus == 1 ){
+    if ( Gl_ParameterList[Gl_Request].DebugSerialRxTx == true ){
       if ( loc_ArrayIndex == Gl_ParameterList[Gl_Request].TelegramLength ){
         Serial.printf ("Type: %-20s Telegram: %4s   RecievingTime: %4s ms\n", String(Gl_ParameterList[Gl_Request].TelegramTypeName).c_str() , "Good", String(Gl_ParameterList[Gl_Request].TelegramRetrieveTime).c_str() );
       }
@@ -794,45 +799,45 @@ void ParseDataFromSerialPort (){
     break;
 
     case ic2_Parameters:
-      Gl_ic2_ParametersResultNew.heater_on                    =   Getsigned(Gl_RecievedArray[ 0]);
-      Gl_ic2_ParametersResultNew.comfort_mode                 =   Getsigned(Gl_RecievedArray[ 1]);
-      Gl_ic2_ParametersResultNew.ch_set_max                   =   Getsigned(Gl_RecievedArray[ 2]);
-      Gl_ic2_ParametersResultNew.dhw_set                      =   Getsigned(Gl_RecievedArray[ 3]);
-      Gl_ic2_ParametersResultNew.eco_days                     =   Getsigned(Gl_RecievedArray[ 4]);
-      Gl_ic2_ParametersResultNew.comfort_set                  =   Getsigned(Gl_RecievedArray[ 5]);
-      Gl_ic2_ParametersResultNew.dhw_at_night                 =   Getsigned(Gl_RecievedArray[ 6]);
-      Gl_ic2_ParametersResultNew.ch_at_night                  =   Getsigned(Gl_RecievedArray[ 7]);
-      Gl_ic2_ParametersResultNew.param_1                      =   Getsigned(Gl_RecievedArray[ 8]);
-      Gl_ic2_ParametersResultNew.param_2                      =   Getsigned(Gl_RecievedArray[ 9]);
-      Gl_ic2_ParametersResultNew.param_3                      =   Getsigned(Gl_RecievedArray[10]);
-      Gl_ic2_ParametersResultNew.param_4                      =   Getsigned(Gl_RecievedArray[11]);
-      Gl_ic2_ParametersResultNew.param_5                      =   Getsigned(Gl_RecievedArray[12]);
-      Gl_ic2_ParametersResultNew.param_6                      =   Getsigned(Gl_RecievedArray[13]);
-      Gl_ic2_ParametersResultNew.param_7                      =   Getsigned(Gl_RecievedArray[14]);
-      Gl_ic2_ParametersResultNew.param_8                      =   Getsigned(Gl_RecievedArray[15]);
-      Gl_ic2_ParametersResultNew.param_9                      =   Getsigned(Gl_RecievedArray[16]);
-      Gl_ic2_ParametersResultNew.param_A                      =   Getsigned(Gl_RecievedArray[17]);
-      Gl_ic2_ParametersResultNew.param_b                      =   Getsigned(Gl_RecievedArray[18]);
-      Gl_ic2_ParametersResultNew.param_C                      =   Getsigned(Gl_RecievedArray[19]);
-      Gl_ic2_ParametersResultNew.param_c                      =   Getsigned(Gl_RecievedArray[20]);
-      Gl_ic2_ParametersResultNew.param_d                      =   Getsigned(Gl_RecievedArray[21]);
-      Gl_ic2_ParametersResultNew.param_E                      =   Getsigned(Gl_RecievedArray[22]);
-      Gl_ic2_ParametersResultNew.param_Edot                   =   Getsigned(Gl_RecievedArray[23]);
-      Gl_ic2_ParametersResultNew.param_F                      =   Getsigned(Gl_RecievedArray[24]);
-      Gl_ic2_ParametersResultNew.param_H                      =   Getsigned(Gl_RecievedArray[25]);
-      Gl_ic2_ParametersResultNew.param_n                      =   Getsigned(Gl_RecievedArray[26]);
-      Gl_ic2_ParametersResultNew.param_o                      =   Getsigned(Gl_RecievedArray[27]);
-      Gl_ic2_ParametersResultNew.param_P                      =   Getsigned(Gl_RecievedArray[28]);
-      Gl_ic2_ParametersResultNew.param_r                      =   Getsigned(Gl_RecievedArray[29]);
-      Gl_ic2_ParametersResultNew.param_Fdot                   =   Getsigned(Gl_RecievedArray[30]);
+      Gl_ic2_ParametersResultNew.heater_on                    =   getSigned(Gl_RecievedArray[ 0]);
+      Gl_ic2_ParametersResultNew.comfort_mode                 =   getSigned(Gl_RecievedArray[ 1]);
+      Gl_ic2_ParametersResultNew.ch_set_max                   =   getSigned(Gl_RecievedArray[ 2]);
+      Gl_ic2_ParametersResultNew.dhw_set                      =   getSigned(Gl_RecievedArray[ 3]);
+      Gl_ic2_ParametersResultNew.eco_days                     =   getSigned(Gl_RecievedArray[ 4]);
+      Gl_ic2_ParametersResultNew.comfort_set                  =   getSigned(Gl_RecievedArray[ 5]);
+      Gl_ic2_ParametersResultNew.dhw_at_night                 =   getSigned(Gl_RecievedArray[ 6]);
+      Gl_ic2_ParametersResultNew.ch_at_night                  =   getSigned(Gl_RecievedArray[ 7]);
+      Gl_ic2_ParametersResultNew.param_1                      =   getSigned(Gl_RecievedArray[ 8]);
+      Gl_ic2_ParametersResultNew.param_2                      =   getSigned(Gl_RecievedArray[ 9]);
+      Gl_ic2_ParametersResultNew.param_3                      =   getSigned(Gl_RecievedArray[10]);
+      Gl_ic2_ParametersResultNew.param_4                      =   getSigned(Gl_RecievedArray[11]);
+      Gl_ic2_ParametersResultNew.param_5                      =   getSigned(Gl_RecievedArray[12]);
+      Gl_ic2_ParametersResultNew.param_6                      =   getSigned(Gl_RecievedArray[13]);
+      Gl_ic2_ParametersResultNew.param_7                      =   getSigned(Gl_RecievedArray[14]);
+      Gl_ic2_ParametersResultNew.param_8                      =   getSigned(Gl_RecievedArray[15]);
+      Gl_ic2_ParametersResultNew.param_9                      =   getSigned(Gl_RecievedArray[16]);
+      Gl_ic2_ParametersResultNew.param_A                      =   getSigned(Gl_RecievedArray[17]);
+      Gl_ic2_ParametersResultNew.param_b                      =   getSigned(Gl_RecievedArray[18]);
+      Gl_ic2_ParametersResultNew.param_C                      =   getSigned(Gl_RecievedArray[19]);
+      Gl_ic2_ParametersResultNew.param_c                      =   getSigned(Gl_RecievedArray[20]);
+      Gl_ic2_ParametersResultNew.param_d                      =   getSigned(Gl_RecievedArray[21]);
+      Gl_ic2_ParametersResultNew.param_E                      =   getSigned(Gl_RecievedArray[22]);
+      Gl_ic2_ParametersResultNew.param_Edot                   =   getSigned(Gl_RecievedArray[23]);
+      Gl_ic2_ParametersResultNew.param_F                      =   getSigned(Gl_RecievedArray[24]);
+      Gl_ic2_ParametersResultNew.param_H                      =   getSigned(Gl_RecievedArray[25]);
+      Gl_ic2_ParametersResultNew.param_n                      =   getSigned(Gl_RecievedArray[26]);
+      Gl_ic2_ParametersResultNew.param_o                      =   getSigned(Gl_RecievedArray[27]);
+      Gl_ic2_ParametersResultNew.param_P                      =   getSigned(Gl_RecievedArray[28]);
+      Gl_ic2_ParametersResultNew.param_r                      =   getSigned(Gl_RecievedArray[29]);
+      Gl_ic2_ParametersResultNew.param_Fdot                   =   getSigned(Gl_RecievedArray[30]);
     break;    
 
     case ic2_OperatingHours:
-      Gl_ic2_OperatingHoursResultNew.line_power_connected     =   getInt(Gl_RecievedArray[ 1], Gl_RecievedArray[ 0] + Gl_RecievedArray[30] * 65536);
+      Gl_ic2_OperatingHoursResultNew.line_power_connected     =   getInt(Gl_RecievedArray[ 1], Gl_RecievedArray[ 0]);
       Gl_ic2_OperatingHoursResultNew.line_power_disconnect    =   getInt(Gl_RecievedArray[ 3], Gl_RecievedArray[ 2]);
       Gl_ic2_OperatingHoursResultNew.ch_function              =   getInt(Gl_RecievedArray[ 5], Gl_RecievedArray[ 4]);
       Gl_ic2_OperatingHoursResultNew.dhw_function             =   getInt(Gl_RecievedArray[ 7], Gl_RecievedArray[ 6]);
-      Gl_ic2_OperatingHoursResultNew.burnerstarts             =   getInt(Gl_RecievedArray[ 9], Gl_RecievedArray[ 8] + Gl_RecievedArray[31] * 65536);
+      Gl_ic2_OperatingHoursResultNew.burnerstarts             =   getInt(Gl_RecievedArray[ 9], Gl_RecievedArray[ 8]);
       Gl_ic2_OperatingHoursResultNew.ignition_failed          =   getInt(Gl_RecievedArray[11], Gl_RecievedArray[10]);
       Gl_ic2_OperatingHoursResultNew.flame_lost               =   getInt(Gl_RecievedArray[13], Gl_RecievedArray[12]);
       Gl_ic2_OperatingHoursResultNew.reset                    =   getInt(Gl_RecievedArray[15], Gl_RecievedArray[14]);
@@ -871,18 +876,18 @@ void ParseDataFromSerialPort (){
     break;
 
   case ic2_Burner:
-    Gl_ic2_BurnerResultNew.interrupt_time                 =    getInt(Gl_RecievedArray[0], Gl_RecievedArray[1]) / (float)5   ;
-    Gl_ic2_BurnerResultNew.interrupt_load                 =    getInt(Gl_RecievedArray[2], Gl_RecievedArray[3]) / (float)6.25;
-    Gl_ic2_BurnerResultNew.main_load                      =    getInt(Gl_RecievedArray[4], Gl_RecievedArray[5]) / (float)8   ;
+    Gl_ic2_BurnerResultNew.interrupt_time                 =    getInt(Gl_RecievedArray[1], Gl_RecievedArray[0]) / (float)5   ;
+    Gl_ic2_BurnerResultNew.interrupt_load                 =    getInt(Gl_RecievedArray[3], Gl_RecievedArray[2]) / (float)6.25;
+    Gl_ic2_BurnerResultNew.main_load                      =    getInt(Gl_RecievedArray[5], Gl_RecievedArray[4]) / (float)8   ;
     //
     if (getInt(Gl_RecievedArray[6],Gl_RecievedArray[7]) > 0){
-      Gl_ic2_BurnerResultNew.net_frequency              =    (float)2000 / getInt(Gl_RecievedArray[6], Gl_RecievedArray[7]) ;  
+      Gl_ic2_BurnerResultNew.net_frequency              =    (float)2000 / getInt(Gl_RecievedArray[7], Gl_RecievedArray[6]) ;  
     }
     else{
       Gl_ic2_BurnerResultNew.net_frequency              =    0;
     }
     //
-    Gl_ic2_BurnerResultNew.voltage_reference              =    (getInt(Gl_RecievedArray[8],Gl_RecievedArray[9]) * 5) / (float)1024;
+    Gl_ic2_BurnerResultNew.voltage_reference              =    (getInt(Gl_RecievedArray[9],Gl_RecievedArray[8]) * 5) / (float)1024;
     Gl_ic2_BurnerResultNew.checksum1                      =    Get_CRC(char(Gl_RecievedArray[24]) , char(Gl_RecievedArray[25]) , char(Gl_RecievedArray[26]) , char(Gl_RecievedArray[27]));
     Gl_ic2_BurnerResultNew.checksum2                      =    Get_CRC(char(Gl_RecievedArray[28]) , char(Gl_RecievedArray[29]) , char(Gl_RecievedArray[30]) , char(Gl_RecievedArray[31]));
   break;
@@ -923,6 +928,66 @@ void ParseDataFromSerialPort (){
   break;    
   }
 }
+
+void FormatData (){
+  if ( IntergasStateMachine.executeOnce ) {
+    WriteState();
+  }
+  //
+  switch (Gl_Request) {
+    case ic2_Status:
+      //
+      GL_ic2_Status[ 0]        .Formatted = String(Gl_ic2_StatusResultNew.t1                            ).c_str();
+      GL_ic2_Status[ 1]        .Formatted = String(Gl_ic2_StatusResultNew.t2                            ).c_str();
+      GL_ic2_Status[ 2]        .Formatted = String(Gl_ic2_StatusResultNew.t3                            ).c_str();
+      GL_ic2_Status[ 3]        .Formatted = String(Gl_ic2_StatusResultNew.t4                            ).c_str();
+      GL_ic2_Status[ 4]        .Formatted = String(Gl_ic2_StatusResultNew.t5                            ).c_str();
+      GL_ic2_Status[ 5]        .Formatted = String(Gl_ic2_StatusResultNew.t6                            ).c_str();
+      GL_ic2_Status[ 6]        .Formatted = String(Gl_ic2_StatusResultNew.ch_pressure                   ).c_str();
+      GL_ic2_Status[ 7]        .Formatted = String(Gl_ic2_StatusResultNew.temp_set                      ).c_str();
+      GL_ic2_Status[ 8]        .Formatted = String(Gl_ic2_StatusResultNew.fanspeed_set                  ).c_str();
+      GL_ic2_Status[ 9]        .Formatted = String(Gl_ic2_StatusResultNew.fan_speed                     ).c_str();
+      GL_ic2_Status[10]        .Formatted = String(Gl_ic2_StatusResultNew.fan_pwm                       ).c_str();
+      GL_ic2_Status[11]        .Formatted = String(Gl_ic2_StatusResultNew.io_curr                       ).c_str();
+      GL_ic2_Status[12]        .Formatted = String(Gl_ic2_StatusResultNew.display_code                  ).c_str();
+      GL_ic2_Status[13]        .Formatted = String(Gl_ic2_StatusResultNew.gp_switch                     ).c_str();
+      GL_ic2_Status[14]        .Formatted = String(Gl_ic2_StatusResultNew.tap_switch                    ).c_str();
+      GL_ic2_Status[15]        .Formatted = String(Gl_ic2_StatusResultNew.roomtherm                     ).c_str();
+      GL_ic2_Status[16]        .Formatted = String(Gl_ic2_StatusResultNew.pump                          ).c_str();
+      GL_ic2_Status[17]        .Formatted = String(Gl_ic2_StatusResultNew.dwk                           ).c_str();
+      GL_ic2_Status[18]        .Formatted = String(Gl_ic2_StatusResultNew.alarm_status                  ).c_str();
+      GL_ic2_Status[19]        .Formatted = String(Gl_ic2_StatusResultNew.ch_cascade_relay              ).c_str();
+      GL_ic2_Status[20]        .Formatted = String(Gl_ic2_StatusResultNew.opentherm                     ).c_str();
+      GL_ic2_Status[21]        .Formatted = String(Gl_ic2_StatusResultNew.gasvalve                      ).c_str();
+      GL_ic2_Status[22]        .Formatted = String(Gl_ic2_StatusResultNew.spark                         ).c_str();
+      GL_ic2_Status[23]        .Formatted = String(Gl_ic2_StatusResultNew.io_signal                     ).c_str();
+      GL_ic2_Status[24]        .Formatted = String(Gl_ic2_StatusResultNew.ch_ot_disabled                ).c_str();
+      GL_ic2_Status[25]        .Formatted = String(Gl_ic2_StatusResultNew.low_water_pressure            ).c_str();
+      GL_ic2_Status[26]        .Formatted = String(Gl_ic2_StatusResultNew.pressure_sensor               ).c_str();
+      GL_ic2_Status[27]        .Formatted = String(Gl_ic2_StatusResultNew.burner_block                  ).c_str();
+      GL_ic2_Status[28]        .Formatted = String(Gl_ic2_StatusResultNew.grad_flag                     ).c_str();
+
+    break;
+
+  case ic2_Parameters:
+  break;    
+
+  case ic2_OperatingHours:
+  break;
+
+  case ic2_BurnerVersion:
+  break;
+
+  case ic2_Burner:
+  break;
+
+  case ic2_Faults:
+  break;    
+  }
+}
+
+
+
 
 void DisplayDataFromSerialPort (){
   if ( IntergasStateMachine.executeOnce ) {
@@ -1381,9 +1446,12 @@ void setup() {
   // ## Set serial ports                                                      ##
   // ###########################################################################
   //
+  // Set pimodes for the led
+  pinMode(ledPin, OUTPUT);
+  //
   // Set pimodes for the serial port
-  pinMode(Intergas_RXport,  INPUT);
-  pinMode(Intergas_TXport, OUTPUT);
+  pinMode(Intergas_RXport,  INPUT);     //  RX D7 input
+  pinMode(Intergas_TXport, OUTPUT);     //  TX D6 output
   //
   // Open serial port to Intergas boiler
   InterGasSerial.begin(9600);
