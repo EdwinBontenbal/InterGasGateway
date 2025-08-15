@@ -33,6 +33,7 @@ A few requirements, set by myself, according to the software:
 - KiCad
 - MQTT Explorer
 - C++ decompiler
+- yed
 
 # General requirements
 - Based on opensource
