@@ -26,7 +26,7 @@ A few requirements, set by myself, according to the software:
 - Output of retrieved data should be pushed to the serial port
 - Output of retrieved data should be pushed to a mqtt listner (domotica software independent)
 - Scheduled retrievel of data should be possible
-- Reading the serial port should be 
+- Reading the serial port should be fail save
 
 # Used tools
 - Visual Studio code + platrformIO
