@@ -561,7 +561,7 @@ byte CheckFault (byte loc_FaultOccurences){
 
 void WriteState() {
   if ( Gl_DebugState == true ) {
-    Serial.printf     (  "State: %33s \n", IGSMStates[IntergasStateMachine.currentState].State );
+    Serial.printf     (  "State : %33s \n", IGSMStates[IntergasStateMachine.currentState].State );
   }
 }
 
@@ -582,10 +582,12 @@ void SetBurnerSettings() {
   //
   switch (Gl_ic2_BurnerVersionResultNew.h_version[2]){
     case '2':
+      Serial.println     ( "Burner: Controller type IC2" );  
       Gl_ic2 = true;
       Gl_ic3 = false;
     break;
     case '3':
+      Serial.println     ( "Burner: Controller type IC3" );  
       Gl_ic2 = false;
       Gl_ic3 = true;
     break;
