@@ -6,4 +6,6 @@ const char*     hostname      = "InterGas GW";
 // Define mqtt settings
 const char*     mqtt_server   = "XX";				// Put your MQTT IP adress here
 const int       mqtt_port     = 1883;				// Put your MQTT port      here
+const char*     mqtt_user     = "";
+const char*     mqtt_password = "";
 const char*     Gl_Topic1     = "InterGasGW";

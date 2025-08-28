@@ -6,10 +6,10 @@
 #include <EnvironmentSettings.h>
 //
 //Define Software Serial ports
-#define Intergas_TXport                D6    // output
-#define Intergas_RXport                D7    // input
+#define Intergas_TXport                D6    // output to boiler
+#define Intergas_RXport                D7    // input  to boiler
 //
-#define          ledPin               2
+#define          ledPin                D4  
 //
 // Init Wifi Client and MQTT
 WiFiClient   espClient;
@@ -21,7 +21,6 @@ StateMachine IntergasStateMachine = StateMachine();
 struct States {
   const char*           State;
 };
-
 
 struct States IGSMStates[25] = {
 // 1234567890123456789012345678901 -> 31 + 1 char = 32
@@ -209,11 +208,10 @@ struct TelegramObjects Gl_ic2_OperatingHours[8] = {
   { "reset"                   , "" , "(   # )" , nullptr },
 };
 
-
-
 struct ParameterRecord {
   const byte            Telegram;
   const char*           SerialCommand;
+  const bool            TelegramEnable;
   const bool            ic2;
   const bool            ic3;
   const bool            DebugSerialRxTx;
@@ -234,17 +232,17 @@ const byte Gl_NoOfTelegrams = 11;   // N + 1 = 10 + 1 = 11
 
 struct  ParameterRecord Gl_ParameterList[Gl_NoOfTelegrams] =
 {
-  {  0, ""       ,  true,  true, false, true,   true,  0,         0,     0, "Nothing"            , 0, 0, 0, 0, 0}, // Not used
-  {  1, "S?\r"   ,  true, false, false, false,  true, 32,      1000,   155, "ic2_Status"         , 0, 0, 0, 0, 0}, // Max 150 ms, Prefered setting 160
-  {  2, "S2\r"   , false, false, false, false, false, 32, 999999999,   155, "StatusExtra"        , 0, 0, 0, 0, 0}, // To be done
-  {  3, "REV"    ,  true, false, false, false,  true, 32,   3600000,   155, "ic2_BurnerVersion"  , 0, 0, 0, 0, 0}, // Max 135 ms, Prefered setting 145
-  {  4, "CRC"    ,  true, false, false, false,  true, 32,     60000,   155, "ic2_Burner"         , 0, 0, 0, 0, 0}, // Max 100 ms, Prefered setting 110
-  {  5, "HN\r"   ,  true, false, false, false,  true, 32,     60000,   155, "ic2_OperatingHours" , 0, 0, 0, 0, 0}, // Max 130 ms, Prefered setting 140
-  {  6, "EN\r"   ,  true, false, false, false,  true, 32,     10000,   155, "ic2_Faults"         , 0, 0, 0, 0, 0}, // Max 150 ms, Prefered setting 160
-  {  7, "V?\r"   ,  true, false, false, false,  true, 32,     60000,   155, "ic2_Parameters"     , 0, 0, 0, 0, 0}, // Max 135 ms, Prefered setting 145
-  {  8, "LX?"    , false, false, false, false, false, 32, 999999999,   155, "parametersExtra"    , 0, 0, 0, 0, 0}, // To be done
-  {  9, "B?\r"   , false, false, false, false, false, 32, 999999999,   155, "infoblok"           , 0, 0, 0, 0, 0}, // To be done
-  { 10, "B2\r"   , false, false, false, false, false, 32, 999999999,   155, "infoblokExtra"      , 0, 0, 0, 0, 0}  // To be done
+  {  0, ""       , false, true,  true, false, true,   true,  0,         0,     0, "Nothing"            , 0, 0, 0, 0, 0}, // Not used
+  {  1, "S?\r"   ,  true, true, false, false, false,  true, 32,      1000,   155, "ic2_Status"         , 0, 0, 0, 0, 0}, // Max 150 ms, Prefered setting 160
+  {  2, "S2\r"   , false,false, false, false, false, false, 32, 999999999,   155, "StatusExtra"        , 0, 0, 0, 0, 0}, // To be done
+  {  3, "REV"    ,  true, true, false, false, false,  true, 32,   3600000,   155, "ic2_BurnerVersion"  , 0, 0, 0, 0, 0}, // Max 135 ms, Prefered setting 145
+  {  4, "CRC"    ,  true, true, false, false, false,  true, 32,     60000,   155, "ic2_Burner"         , 0, 0, 0, 0, 0}, // Max 100 ms, Prefered setting 110
+  {  5, "HN\r"   ,  true, true, false, false, false,  true, 32,     60000,   155, "ic2_OperatingHours" , 0, 0, 0, 0, 0}, // Max 130 ms, Prefered setting 140
+  {  6, "EN\r"   ,  true, true, false, false, false,  true, 32,     10000,   155, "ic2_Faults"         , 0, 0, 0, 0, 0}, // Max 150 ms, Prefered setting 160
+  {  7, "V?\r"   ,  true, true, false, false, false,  true, 32,     60000,   155, "ic2_Parameters"     , 0, 0, 0, 0, 0}, // Max 135 ms, Prefered setting 145
+  {  8, "LX?"    , false,false, false, false, false, false, 32, 999999999,   155, "parametersExtra"    , 0, 0, 0, 0, 0}, // To be done
+  {  9, "B?\r"   , false,false, false, false, false, false, 32, 999999999,   155, "infoblok"           , 0, 0, 0, 0, 0}, // To be done
+  { 10, "B2\r"   , false,false, false, false, false, false, 32, 999999999,   155, "infoblokExtra"      , 0, 0, 0, 0, 0}  // To be done
 };
 
 const byte Gl_SerialRecieveTimeoutExtraDubugTime          = 200;
@@ -416,7 +414,7 @@ struct ic2_FaultsResult             Gl_ic2_FaultsResultOld;
 struct ic2_ParametersResult         Gl_ic2_ParametersResultNew;
 struct ic2_ParametersResult         Gl_ic2_ParametersResultOld;
 
-
+//
 
 //Debug Parameters
 bool          Gl_DebugState                           = true;
@@ -435,7 +433,7 @@ void MQTTconnect() {
   while (!client.connected()) {
     Serial.print        ("MQTT - Connecting MQTT   : ");
     //
-    if (client.connect("ESP8266Client")) {
+    if (client.connect("ESP8266Client", mqtt_user, mqtt_password)) {
       Serial.println    ("Connected to MQTT");
       delay(500);
     }
@@ -596,14 +594,18 @@ void SetBurnerSettings() {
 
 
 void EmptySerialBuffer() {
+  unsigned long loc_Timer = 0;
   //
   if ( IntergasStateMachine.executeOnce ) {
     WriteState();
   }
   //
-  while (InterGasSerial.available() > 0) {
-    InterGasSerial.read();
-  }
+  do  
+    while (InterGasSerial.available() > 0  ) {
+      loc_Timer = millis() + 32;
+      InterGasSerial.read();
+    }
+  while ((millis() < loc_Timer) );
 }
 
 
@@ -617,6 +619,7 @@ void DetermineRequest () {
   unsigned long CurrentTime = millis();
   //
   struct loc_ParameterRecord {
+    bool                  TelegramEnable;
     bool                  ic2;
     bool                  ic3;
     unsigned long         OverTime;
@@ -625,12 +628,14 @@ void DetermineRequest () {
   loc_ParameterRecord loc_ParameterList[Gl_NoOfTelegrams];
   //
   for (int counter = 1; counter < Gl_NoOfTelegrams; counter++) {
+    loc_ParameterList[counter].TelegramEnable      = Gl_ParameterList[counter].TelegramEnable;
     loc_ParameterList[counter].ic2                 = Gl_ParameterList[counter].ic2;
     loc_ParameterList[counter].ic3                 = Gl_ParameterList[counter].ic3;
     //
     if (Duration(CurrentTime, Gl_ParameterList[counter].TelegramLastTimeRun) > Gl_ParameterList[counter].TelegramReadSchedule ) {
       loc_ParameterList[counter].OverTime     = (Duration(CurrentTime, Gl_ParameterList[counter].TelegramLastTimeRun) - Gl_ParameterList[counter].TelegramReadSchedule);
     }
+
     else {
       loc_ParameterList[counter].OverTime     = 0;
     }
@@ -640,7 +645,7 @@ int             maxIndex = 0;
 unsigned long   maxVal   = 0;
 
 for (int counter = 1; counter < Gl_NoOfTelegrams; counter++) {
-  if ( (loc_ParameterList[counter].OverTime > maxVal) and (loc_ParameterList[counter].ic2 == Gl_ic2) and (loc_ParameterList[counter].ic3 == Gl_ic3) ) {
+   if (  (loc_ParameterList[counter].TelegramEnable == true) and (loc_ParameterList[counter].ic2 == Gl_ic2) and (loc_ParameterList[counter].ic3 == Gl_ic3) and (loc_ParameterList[counter].OverTime > maxVal)) {
     maxVal   = loc_ParameterList[counter].OverTime;
     maxIndex = counter;
   }
@@ -656,18 +661,19 @@ void SendRequestToSerialPort () {
     WriteState();
   }
   //
-  // OnboardLed On
-  digitalWrite(ledPin,HIGH);
-  //
   Gl_ParameterList[Gl_Request].TelegramLastTimeRun = millis();
+  //
+  // OnboardLed On
+  //digitalWrite(ledPin,HIGH);
   InterGasSerial.write(Gl_ParameterList[Gl_Request].SerialCommand);
+  // OnboardLed Off
+  //digitalWrite(ledPin,LOW);
+
   // 
   if (Gl_ParameterList[Gl_Request].DebugSerialRxTx == true){
     Serial.printf ("TX : Data: %-3s \n", Gl_ParameterList[Gl_Request].SerialCommand );
   }
   //
-  // OnboardLed Off
-  digitalWrite(ledPin,HIGH);
 }
 
 void GetDataFromSerialPort () {
@@ -719,7 +725,7 @@ void GetDataFromSerialPort () {
     //
 
     if ( loc_ArrayIndex == Gl_ParameterList[Gl_Request].TelegramLength ) {
-      Gl_ParameterList[Gl_Request].TelegramValid = true;
+      Gl_ParameterList[Gl_Request].TelegramValid  = true;
     }
     else {
       Gl_ParameterList[Gl_Request].TelegramValid  = false;
@@ -1332,6 +1338,10 @@ void setup_wifi() {
   Serial.print    ("WiFi - "                );
   Serial.print    ("Setting hostname  : "   );
   Serial.println  (String(hostname).c_str() );
+  //
+  Serial.print    ("WiFi - "                );
+  Serial.print    ("Setting SSID      : "   );
+  Serial.println  (String(ssid).c_str()     );
   //  
   // Set some intresting information (hostname, SSID and password for the WIFI network
   WiFi.hostname   (String(hostname).c_str()   );
@@ -1349,7 +1359,7 @@ void setup_wifi() {
     //
   // Write some intresting information for the enduers
   Serial.print("WiFi - "                    );
-  Serial.print("IP address        : "     );
+  Serial.print("IP address        : "       );
   Serial.println(WiFi.localIP()             );
   //
   WiFi.setAutoReconnect (true);
@@ -1371,12 +1381,6 @@ bool NewTelegramRequest(){
   return false;
 }
 //
-bool NoNewTelegramRequest(){
-  if ( Gl_Request == Nothing ){
-    return true;
-  }
-  return false;
-}
 //
 bool ValidTelegram(){
   if ( Gl_ParameterList[Gl_Request].TelegramValid == true ){
