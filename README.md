@@ -29,6 +29,9 @@ A few requirements, set by myself, according to the software:
 - Scheduled retrievel of data should be possible
 - Reading the serial port should be fail save
 
+# Usefull information
+-  wehn using the serial monitor function please set the speed to 115200
+
 # Used tools
 - Visual Studio code + platrformIO
 - KiCad
