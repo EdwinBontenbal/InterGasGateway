@@ -30,7 +30,8 @@ A few requirements, set by myself, according to the software:
 - Reading the serial port should be fail save
 
 # Usefull information
--  wehn using the serial monitor function please set the speed to 115200
+- When using the serial monitor function please set the speed to 115200
+- The Gl_ParameterList als has a parameter to debug the serial port (ras data)
 
 # Used tools
 - Visual Studio code + platrformIO
