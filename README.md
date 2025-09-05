@@ -37,7 +37,7 @@ A few requirements, set by myself, according to the software:
 - Visual Studio code + platrformIO
 - KiCad
 - MQTT Explorer
-- C++ decompiler
+- Python decompiler
 - yed
 
 # General requirements
